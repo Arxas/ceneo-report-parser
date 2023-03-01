@@ -6,7 +6,7 @@
 4. Po zakończeniu zamknij okno instalatora.
 5. Pobierz skrypt (zielony przycisk _Code_, _Download ZIP_).
 6. Rozpakuj pobrane archiwum `ceneo-report-parser-main.zip` w dowolnym miejscu.
-7. Uruchom plik `setup.bat` w rozpakowanym folderze `ceneo-report-parser-main`.
+7. Uruchom dwukrotnym kliknięciem plik `setup.bat` w rozpakowanym folderze `ceneo-report-parser-main`.
 
 ## Uruchomienie skryptu
 
