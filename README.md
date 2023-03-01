@@ -1,6 +1,6 @@
 ## Instalacja
 
-1. Pobierz Pythona (https://www.python.org/downloads/, _Download the latest version for Windows_).
+1. Pobierz Pythona (https://www.python.org/downloads/, żółty przycisk pod _Download the latest version for Windows_).
 2. Uruchom pobrany instalator.
 3. W pierwszym oknie koniecznie zaznacz opcję _Add python.exe to PATH_ i kliknij _Install Now_.
 4. Po zakończeniu zamknij okno instalatora.
