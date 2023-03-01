@@ -1,27 +1,46 @@
 import csv
+import os
+
+import click
 import pandas
 
-output = {}
-total_cost = 0
 
-with open("raport.csv", newline="", encoding="utf-8-sig") as csv_file:
-    data = csv.reader(csv_file, delimiter=",")
-    for row in data:
-        cost = float(row[1].split(" ")[0])
-        total_cost += cost
-        if row[0] in output:
-            output[row[0]]["cost"] += cost
-            output[row[0]]["count"] += 1
+def parse_ceneo_report(report_path):
+    output = {}
+    df = pandas.read_excel(report_path, header=None, skiprows=[0])
+    for _, row in df.iterrows():
+        item, cost = row.tolist()[:2]
+        if item in output:
+            output[item]["cost"] += float(cost)
+            output[item]["count"] += 1
         else:
-            output[row[0]] = {"count": 1, "cost": cost}
+            output[item] = {"count": 1, "cost": float(cost)}
+    return output
 
-with open("temp.csv", "w", encoding="utf=8", newline="") as csv_file:
-    writer = csv.writer(csv_file, delimiter=",", quoting=csv.QUOTE_MINIMAL)
-    for key, value in output.items():
-        rounded_value = "%.2f" % value["cost"]
-        line = [key, value["count"], rounded_value]
-        writer.writerow(line, )
 
-csv_file_pd = pandas.read_csv("temp.csv", header=None, encoding="utf-8", delimiter=",")
-header = ["pozycja", "ilość przeklików", "koszt całkowity"]
-csv_file_pd.to_excel("podsumowanie.xlsx", header=header, index=None, encoding="utf-8")
+def write_xlsx_report(parsed_report):
+    temp_csv_file = "temp.csv"
+    with open(temp_csv_file, "w", encoding="utf=8", newline="") as csv_file:
+        writer = csv.writer(csv_file, delimiter=",", quoting=csv.QUOTE_MINIMAL)
+        for key, value in parsed_report.items():
+            rounded_value = "%.2f" % value["cost"]
+            line = [key, value["count"], rounded_value]
+            writer.writerow(line, )
+    convert_csv_to_xlsx(temp_csv_file, ["pozycja", "ilość kliknięć", "koszt całkowity"], "podsumowanie")
+    os.remove(temp_csv_file)
+
+
+def convert_csv_to_xlsx(csv_file_path, header, file_name):
+    csv_file_pd = pandas.read_csv(csv_file_path, header=None, encoding="utf-8", delimiter=",")
+    csv_file_pd.to_excel(f"{file_name}.xlsx", header=header, index=False)
+
+
+@click.command()
+@click.argument("report")
+def main(report):
+    output = parse_ceneo_report(report)
+    write_xlsx_report(output)
+
+
+if __name__ == '__main__':
+    main()
