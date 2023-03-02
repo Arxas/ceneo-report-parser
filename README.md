@@ -11,5 +11,5 @@
 ## Uruchomienie skryptu
 
 1. Skopiuj raport `.xlsx` wygenerowany przez _Ceneo_ do folderu `ceneo-report-parser-main`.
-2. Przeciągnij raport na znajdujący się w folderze `ceneo-report-parser-main` **na** plik `parser.bat` i puść (_drag and drop_).
+2. Przeciągnij raport **na** znajdujący się w folderze `ceneo-report-parser-main` plik `parser.bat` i puść (_drag and drop_).
 3. Po chwili w folderze powinien pojawić się plik `podsumowanie.xlsx`.
