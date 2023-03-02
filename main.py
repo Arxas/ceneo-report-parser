@@ -7,14 +7,17 @@ import pandas
 
 def parse_ceneo_report(report_path):
     output = {}
-    df = pandas.read_excel(report_path, header=None, skiprows=[0])
-    for _, row in df.iterrows():
-        item, cost = row.tolist()[:2]
+    xlsx_file = pandas.read_excel(report_path, header=None)
+    for _, row in xlsx_file.iterrows():
+        if "Ilość przejść" in row.tolist()[2]:
+            continue
+        item, cost = row.tolist()[2:4]
         if item in output:
             output[item]["cost"] += float(cost)
             output[item]["count"] += 1
         else:
             output[item] = {"count": 1, "cost": float(cost)}
+    input()
     return output
 
 
